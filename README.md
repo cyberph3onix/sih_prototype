@@ -31,32 +31,70 @@ is hard-coded, scripted, or replayed from a recording.
 
 ## Quick start
 
-A working `.venv/` is already in the repo — just run:
-
 ```bash
-./run_demo.sh                 # opens http://localhost:8501
+git clone https://github.com/OWNER/REPO.git
+cd REPO
+./run_demo.sh
 ```
 
-To rebuild the environment from scratch on another machine:
+That is the whole setup. On its first run the script creates a virtual
+environment and installs the dependencies, then opens the dashboard at
+**http://localhost:8501**. Later runs start in about two seconds. Press
+`Ctrl-C` to stop it.
 
-```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+**Requirements:** Python 3.10 or newer (developed and tested on 3.12), and an
+internet connection for that first install only. No GPU, no database, no API
+keys, no accounts. Once installed, the demo runs entirely offline — it makes no
+network calls at all.
+
+**A different port:** `PORT=8600 ./run_demo.sh`
+
+**Windows:** use WSL, or run the same three steps by hand:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\streamlit run app.py
 ```
 
-or, if `python3-venv` is not installed (as on the machine this was built on),
-with [`uv`](https://docs.astral.sh/uv/):
+<details>
+<summary>If setup fails</summary>
+
+**`could not create a virtual environment`** — your Python is missing the
+`venv` module (common on Debian/Ubuntu, and the case on the machine this was
+built on). Install it, or install [`uv`](https://docs.astral.sh/uv/), then
+re-run `./run_demo.sh`, which will use whichever it finds:
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
+sudo apt install python3-venv                       # Debian / Ubuntu
+curl -LsSf https://astral.sh/uv/install.sh | sh     # or uv, no sudo required
 ```
 
-> The shipped `.venv/` was created by `uv` and therefore has **no `pip`**
-> inside it. Everything needed is already installed; use `uv pip install
-> --python .venv/bin/python ...` if you ever need to add a package, or rebuild
-> the venv with `python3 -m venv`.
+**`Port 8501 is already in use`** — `PORT=8600 ./run_demo.sh`
 
-No internet, GPU, database, or API key is needed at any point. Startup is
-about two seconds; a full 400-round simulation takes 0.1 s.
+**Prefer to set it up by hand?**
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/streamlit run app.py
+```
+
+</details>
+
+## Demoing it
+
+Turn on **Judge Demo Mode** (top right) and press the numbered buttons **[1] →
+[6]**; each one sets up a step of the story and prints a presenter note. Or
+just press **START SLOW DRIFT ATTACK** — the alert fires about 9 seconds later.
+**RESET TO CLEAN** always returns to a known-good state.
+
+While playback runs, the five figures across the top stay live and the
+per-section breakdowns are deferred; **press PAUSE** and every panel fills in
+for the round you stopped on. The rhythm is *play a stretch, pause, explain*.
+
+`DEMO_SCRIPT.md` has a full 2–3 minute narration, the questions judges tend to
+ask, and the honest answers to them.
 
 ---
 
