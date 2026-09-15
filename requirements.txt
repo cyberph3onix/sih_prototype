@@ -2,4 +2,3 @@ numpy>=1.26
 scipy>=1.11
 plotly>=5.18
 streamlit>=1.36
-pytest>=8.0
